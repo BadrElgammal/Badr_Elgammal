@@ -4,13 +4,13 @@ var productlocation=document.getElementById("productlocation");
 var productDesc=document.getElementById("productDesc");
 
 var productsContaner;
-if(localStorage.getItem("productList") == null)
+if(localStorage.getItem("drugsList") === null)
 {
     productsContaner =[];
 }
 else
 {
-    productsContaner=JSON.parse(localStorage.getItem("productList"));
+    productsContaner=JSON.parse(localStorage.getItem("drugsList"));
     displayProducts();
 }
 function addProduct()
@@ -23,7 +23,7 @@ function addProduct()
             Desc:productDesc.value
         };
         productsContaner.push(product);
-        localStorage.setItem("productList",JSON.stringify(productsContaner));
+        localStorage.setItem("drugsList",JSON.stringify(productsContaner));
         clearform();
         displayProducts();
    
@@ -48,7 +48,7 @@ function displayProducts()
         <td>${productsContaner[i].count}</td>
         <td>${productsContaner[i].Location}</td>
         <td>${productsContaner[i].Desc}</td>
-        <td><button class="btnU btnColorUpdate">Update</button></td>
+        <td><button onclick="updateproduct(${i})" class="btnU btnColorUpdate">Update</button></td>
         <td><button onclick="deleteProducts(${i})" class="btnD btnColorDelete">Delete</button></td>
         </tr>`
     }
@@ -74,7 +74,7 @@ function chickEmpity()
 function deleteProducts(index) {
     productsContaner.splice(index , 1);
     displayProducts();
-    localStorage.setItem("productList", JSON.stringify(productsContaner));
+    localStorage.setItem("drugsList", JSON.stringify(productsContaner));
   }
 
 
@@ -94,7 +94,7 @@ function searchProduct(searchTerm)
         <td>${productsContaner[i].count}</td>
         <td>${productsContaner[i].Location}</td>
         <td>${productsContaner[i].Desc}</td>
-        <td><button class="btnU btnColorUpdate">Update</button></td>
+        <td><button onclick="updateproduct(${i})" class="btnU btnColorUpdate">Update</button></td>
         <td><button onclick="deleteProducts(${i})" class="btnD btnColorDelete">Delete</button></td>
         </tr>`
         }
@@ -103,5 +103,35 @@ function searchProduct(searchTerm)
 }
 
 
+var btnA=document.getElementById("btnA");
+var currentIndex=-1;
+function updateproduct(index) {
+    currentIndex = index; 
+    ProductName.value = productsContaner[index].name;
+    productcount.value = productsContaner[index].count;
+    productlocation.value = productsContaner[index].Location;
+    productDesc.value = productsContaner[index].Desc;
+    btnA.innerHTML = "Update Product";
+}
 
+btnA.addEventListener('click', function() {
+    if (currentIndex === -1) {
+        addProduct();
+    } else {
+        saveUpdate(currentIndex);
+    }
+});
+
+function saveUpdate(index)
+{
+    productsContaner[index].name=ProductName.value;
+    productsContaner[index].count=productcount.value;
+    productsContaner[index].Location=productlocation.value;
+    productsContaner[index].Desc=productDesc.value;
+    localStorage.setItem("drugsList", JSON.stringify(productsContaner));
+    displayProducts();
+    clearform();
+    btnA.innerHTML = "Add Product"; 
+    currentIndex = -1;
+}
 
