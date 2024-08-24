@@ -7156,6 +7156,4 @@ const drugData = [
   localStorage.setItem('drugsList', drugDataString);
   
   // للتحقق من رفع البيانات بنجاح يمكنك استخدام الكود التالي:
-  console.log('Data uploaded to localStorage:', JSON.parse(localStorage.getItem('drugData')));
-  localStorage.clear();
-  
+  console.log('Data uploaded to localStorage:', JSON.parse(localStorage.getItem('drugData')));  
